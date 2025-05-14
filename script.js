@@ -19,27 +19,73 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   
-    // Mobile menu toggle
+    // Mobile menu toggle - AGGIORNATO
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const closeMenuBtn = document.getElementById('close-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
     const mobileLinks = document.querySelectorAll('.mobile-link');
   
     if (mobileMenuBtn && closeMenuBtn && mobileMenu) {
-      mobileMenuBtn.addEventListener('click', () => {
-        mobileMenu.classList.add('active');
-      });
-  
-      closeMenuBtn.addEventListener('click', () => {
-        mobileMenu.classList.remove('active');
-      });
-  
-      mobileLinks.forEach(link => {
-        link.addEventListener('click', () => {
-          mobileMenu.classList.remove('active');
+        // MODIFICATO: ora fa il toggle del menu invece di solo aprirlo
+        mobileMenuBtn.addEventListener('click', () => {
+          // Controlla se il menu è già attivo
+          if (mobileMenu.classList.contains('active')) {
+            // Se è attivo, lo chiudiamo
+            mobileMenu.classList.remove('active');
+            mobileMenu.style.transform = 'translateX(100%)';
+          } else {
+            // Se non è attivo, lo apriamo
+            mobileMenu.classList.add('active');
+            mobileMenu.style.transform = 'translateX(0)';
+          }
         });
-      });
-    }
+    
+        closeMenuBtn.addEventListener('click', () => {
+          mobileMenu.classList.remove('active');
+          mobileMenu.style.transform = 'translateX(100%)';
+        });
+    
+        // Fix per i link del menu mobile
+        mobileLinks.forEach(link => {
+          link.addEventListener('click', (e) => {
+            // Prima rimuovi la classe active
+            mobileMenu.classList.remove('active');
+            // Poi nascondi il menu con transform
+            mobileMenu.style.transform = 'translateX(100%)';
+            
+            // Aggiungi un breve ritardo prima di navigare per permettere all'animazione di completarsi
+            const href = link.getAttribute('href');
+            if (href.startsWith('#')) {
+              e.preventDefault();
+              setTimeout(() => {
+                const target = document.querySelector(href);
+                if (target) {
+                  window.scrollTo({
+                    top: target.offsetTop - 70,
+                    behavior: 'smooth'
+                  });
+                }
+              }, 300);
+            }
+          });
+        });
+
+        // AGGIUNTO: chiudi il menu quando si clicca fuori da esso
+        document.addEventListener('click', function(e) {
+          // Verifica se il menu è attivo
+          if (mobileMenu && mobileMenu.classList.contains('active')) {
+            // Verifica se il click è avvenuto fuori dal menu e non sul pulsante del menu
+            let clickedInsideMenu = mobileMenu.contains(e.target);
+            let clickedOnMenuButton = mobileMenuBtn.contains(e.target);
+            
+            if (!clickedInsideMenu && !clickedOnMenuButton) {
+              // Chiudi il menu
+              mobileMenu.classList.remove('active');
+              mobileMenu.style.transform = 'translateX(100%)';
+            }
+          }
+        });
+      }
   
     // Project filtering
     const filterButtons = document.querySelectorAll('.project-filter');

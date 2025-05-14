@@ -1,0 +1,266 @@
+/* Base styles */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    scroll-behavior: smooth;
+  }
+  
+  /* Animations */
+  .animate-fade-in {
+    animation: fadeIn 1.2s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  
+  .animate-on-scroll.animated {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .delay-200 { transition-delay: 0.2s; }
+  .delay-400 { transition-delay: 0.4s; }
+  .delay-600 { transition-delay: 0.6s; }
+  .delay-800 { transition-delay: 0.8s; }
+  
+  /* Progress bar animation */
+  @keyframes progress {
+    from { width: 0; }
+    to { width: var(--progress-width); }
+  }
+  
+  .progress-bar {
+    animation: progress 1.5s ease-out forwards;
+  }
+  
+  /* Mobile menu animation */
+  .mobile-menu {
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(100%);
+  }
+  
+  .mobile-menu.active {
+    transform: translateX(0);
+  }
+  
+  /* Pulse effect for CTA button */
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+  }
+  
+  .pulse-effect {
+    animation: pulse 2s infinite;
+  }
+  
+  /* Project filter styles */
+  .project-filter.active {
+    background-color: rgb(37, 99, 235);
+    color: white;
+  }
+  
+  /* Avatar hover effect */
+  .avatar-hover {
+    transition: transform 0.3s ease;
+  }
+  
+  .avatar-hover:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Background animation */
+  .particles-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+  }
+  
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.3;
+    animation: float 15s infinite ease-in-out;
+  }
+  
+  @keyframes float {
+    0% { transform: translateY(0) translateX(0); }
+    25% { transform: translateY(-20px) translateX(10px); }
+    50% { transform: translateY(-35px) translateX(-15px); }
+    75% { transform: translateY(-10px) translateX(-25px); }
+    100% { transform: translateY(0) translateX(0); }
+  }
+  
+  /* Typing cursor animation */
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  
+  .typing-cursor {
+    display: inline-block;
+    width: 3px;
+    height: 1em;
+    background-color: #60a5fa;
+    margin-left: 2px;
+    animation: blink 1s infinite;
+  }
+  
+  /* Glassmorphism effect */
+  .glass-effect {
+    background: rgba(17, 24, 39, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  }
+  
+  .glass-container {
+    background: rgba(17, 24, 39, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Neon text effect for headings */
+  .neon-text {
+    text-shadow: 0 0 5px rgba(59, 130, 246, 0.5), 
+                 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+  
+  /* Skill bar glow effect */
+  .glow-bar {
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+  }
+  
+  /* Project card 3D effect */
+  .card-3d {
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    transform-style: preserve-3d;
+  }
+  
+  .card-3d:hover {
+    transform: translateY(-10px) rotateX(5deg);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3), 
+                0 5px 10px rgba(59, 130, 246, 0.2);
+  }
+  
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #1f2937;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #3b82f6;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #2563eb;
+  }
+  
+  /* Navigation link effect */
+  .nav-link {
+    position: relative;
+  }
+  
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background-color: #3b82f6;
+    transition: all 0.3s ease;
+  }
+  
+  .nav-link:hover::after {
+    width: 100%;
+  }
+  
+  /* Background patterns */
+  .bg-pattern-dots {
+    background-image: radial-gradient(rgba(59, 130, 246, 0.1) 2px, transparent 2px);
+    background-size: 30px 30px;
+    position: relative;
+  }
+  
+  .bg-pattern-grid {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                      linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+  
+  /* Improved back to top button */
+  .back-to-top {
+    background: linear-gradient(45deg, #2563eb, #3b82f6);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+    transition: all 0.3s ease;
+  }
+  
+  .back-to-top:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+  }
+  
+  /* Social media icons hover effect */
+  .social-hover {
+    transition: all 0.3s ease;
+  }
+  
+  .social-hover:hover {
+    transform: translateY(-3px) scale(1.2);
+    text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+  }
+  
+  /* Glowing border for avatar */
+  .glow-border {
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
+  }
+  
+  /* Glow hover effect for buttons */
+  .glow-hover {
+    transition: all 0.3s ease;
+  }
+  
+  .glow-hover:hover {
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.7);
+  }
+  
+  /* Loading spinner */
+  #page-loader {
+    transition: opacity 0.5s ease;
+    background-color: #111827;
+  }
+  
+  #loader-progress {
+    transition: width 0.3s ease;
+  }
+  
+  /* Floating effect for statistical numbers */
+  @keyframes floatUpDown {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  .counter {
+    display: inline-block;
+  }

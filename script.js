@@ -152,17 +152,28 @@ document.addEventListener('DOMContentLoaded', function() {
         if (entry.isIntersecting) {
           const counter = entry.target;
           const target = parseInt(counter.getAttribute('data-target'));
-          const duration = 1500;
-          const increment = target / (duration / 16); // 60fps
+          const duration = 2000;
+          const increment = target / (duration / 16);
           let current = 0;
           
+          // Add spectacular counter animation with color changes
           const updateCounter = () => {
             current += increment;
             if (current < target) {
               counter.textContent = Math.floor(current);
+              
+              // Add dynamic color based on progress
+              const progress = current / target;
+              const hue = 220 + (progress * 60); // Blue to purple transition
+              counter.style.color = `hsl(${hue}, 91%, 60%)`;
+              counter.style.textShadow = `0 0 ${10 + progress * 10}px hsla(${hue}, 91%, 60%, 0.8)`;
+              counter.style.transform = `scale(${1 + progress * 0.1})`;
+              
               requestAnimationFrame(updateCounter);
             } else {
               counter.textContent = target;
+              // Final animation burst
+              counter.style.animation = 'counterBurst 0.6s ease-out';
             }
           };
           
@@ -178,9 +189,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize enhanced project card effects
     initProjectCardEffects();
-  
+    
     // Initialize text reveal animations
-    initTextRevealAnimation();
+    initTextRevealAnimations();
   
     // Form submission
     const contactForm = document.getElementById('contact-form');
@@ -221,212 +232,75 @@ document.addEventListener('DOMContentLoaded', function() {
     createEnhancedParticles();
   }
   
-  // Enhanced particles with better visuals and performance
+  // Enhanced particles with interactive effects
   function createEnhancedParticles() {
     const container = document.getElementById('particles');
     if (!container) return;
     
     const colors = [
       '#3b82f6', '#60a5fa', '#93c5fd', '#1d4ed8', 
-      '#8b5cf6', '#a855f7', '#c084fc', '#06b6d4'
+      '#8b5cf6', '#a855f7', '#06b6d4', '#10b981'
     ];
     
-    const shapes = ['circle', 'square', 'triangle'];
+    // Clear existing particles
+    container.innerHTML = '';
     
     for (let i = 0; i < 60; i++) {
       const particle = document.createElement('div');
-      const size = Math.random() * 12 + 4;
-      const shape = shapes[Math.floor(Math.random() * shapes.length)];
+      const size = Math.random() * 20 + 8;
+      const shape = Math.random() > 0.5 ? '50%' : '0%'; // Circle or square
       
       particle.className = 'particle';
       particle.style.width = `${size}px`;
       particle.style.height = `${size}px`;
-      particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      particle.style.borderRadius = shape;
+      particle.style.background = `linear-gradient(45deg, ${colors[Math.floor(Math.random() * colors.length)]}, ${colors[Math.floor(Math.random() * colors.length)]})`;
       particle.style.left = `${Math.random() * 100}%`;
       particle.style.top = `${Math.random() * 100}%`;
       particle.style.animationDuration = `${Math.random() * 25 + 15}s`;
       particle.style.animationDelay = `${Math.random() * 8}s`;
+      particle.style.opacity = `${Math.random() * 0.6 + 0.2}`;
       
-      // Add different shapes
-      if (shape === 'square') {
-        particle.style.borderRadius = '20%';
-      } else if (shape === 'triangle') {
-        particle.style.borderRadius = '0';
-        particle.style.clipPath = 'polygon(50% 0%, 0% 100%, 100% 100%)';
-      }
-      
-      // Add glow effect
-      particle.style.boxShadow = `0 0 ${size * 2}px ${particle.style.backgroundColor}`;
+      // Add random transform for more dynamic movement
+      particle.style.transform = `rotate(${Math.random() * 360}deg)`;
       
       container.appendChild(particle);
     }
   }
-
-  // Initialize dynamic color theme
-  function initDynamicColorTheme() {
-    const root = document.documentElement;
-    let hue = 220; // Starting hue for blue
+  
+  // Create floating geometric shapes
+  function createFloatingShapes() {
+    const container = document.getElementById('floating-shapes');
+    if (!container) return;
     
-    setInterval(() => {
-      hue = (hue + 0.5) % 360;
-      root.style.setProperty('--dynamic-hue', hue);
-    }, 100);
-  }
-
-  // Initialize enhanced project card effects
-  function initProjectCardEffects() {
-    const cards = document.querySelectorAll('.card-3d');
+    const shapes = ['▲', '●', '■', '◆', '▼', '◇', '⬟', '⬢'];
+    const colors = ['#3b82f6', '#8b5cf6', '#06b6d4', '#10b981', '#f59e0b', '#ef4444'];
     
-    cards.forEach(card => {
-      card.addEventListener('mouseenter', function(e) {
-        this.style.transform = 'translateY(-20px) rotateX(10deg) rotateY(5deg) scale(1.05)';
-        
-        // Add ripple effect
-        const ripple = document.createElement('div');
-        ripple.style.position = 'absolute';
-        ripple.style.borderRadius = '50%';
-        ripple.style.background = 'rgba(59, 130, 246, 0.3)';
-        ripple.style.transform = 'scale(0)';
-        ripple.style.animation = 'ripple 0.6s linear';
-        ripple.style.left = '50%';
-        ripple.style.top = '50%';
-        ripple.style.width = '100px';
-        ripple.style.height = '100px';
-        ripple.style.marginLeft = '-50px';
-        ripple.style.marginTop = '-50px';
-        ripple.style.pointerEvents = 'none';
-        
-        this.style.position = 'relative';
-        this.appendChild(ripple);
-        
-        setTimeout(() => {
-          ripple.remove();
-        }, 600);
-      });
+    for (let i = 0; i < 12; i++) {
+      const shape = document.createElement('div');
+      shape.className = 'floating-shape';
+      shape.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+      shape.style.color = colors[Math.floor(Math.random() * colors.length)];
+      shape.style.fontSize = `${Math.random() * 30 + 20}px`;
+      shape.style.left = `${Math.random() * 100}%`;
+      shape.style.animationDuration = `${Math.random() * 20 + 25}s`;
+      shape.style.animationDelay = `${Math.random() * 10}s`;
       
-      card.addEventListener('mouseleave', function() {
-        this.style.transform = '';
-      });
-      
-      // Mouse move effect for 3D tilt
-      card.addEventListener('mousemove', function(e) {
-        const rect = this.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        
-        const rotateX = (y - centerY) / 10;
-        const rotateY = (centerX - x) / 10;
-        
-        this.style.transform = `translateY(-20px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
-      });
-    });
-  }
-
-  // Enhanced page loader with spectacular effects
-  function initEnhancedPageLoader() {
-    const loader = document.getElementById('page-loader');
-    const progress = document.getElementById('loader-progress');
-    let width = 0;
-    
-    // Create loader particles
-    const loaderParticles = document.createElement('div');
-    loaderParticles.style.position = 'absolute';
-    loaderParticles.style.top = '0';
-    loaderParticles.style.left = '0';
-    loaderParticles.style.width = '100%';
-    loaderParticles.style.height = '100%';
-    loaderParticles.style.pointerEvents = 'none';
-    loader.appendChild(loaderParticles);
-    
-    // Add floating particles to loader
-    for (let i = 0; i < 20; i++) {
-      const particle = document.createElement('div');
-      particle.style.position = 'absolute';
-      particle.style.width = '4px';
-      particle.style.height = '4px';
-      particle.style.background = '#3b82f6';
-      particle.style.borderRadius = '50%';
-      particle.style.left = Math.random() * 100 + '%';
-      particle.style.top = Math.random() * 100 + '%';
-      particle.style.animation = `float ${Math.random() * 3 + 2}s ease-in-out infinite`;
-      particle.style.opacity = '0.6';
-      loaderParticles.appendChild(particle);
+      container.appendChild(shape);
     }
-    
-    // Simulate loading progress with smooth animation
-    const interval = setInterval(() => {
-      width += Math.random() * 8 + 2; // Random increment for realistic loading
-      if (width > 100) width = 100;
-      
-      progress.style.width = width + '%';
-      
-      if (width >= 100) {
-        clearInterval(interval);
-        setTimeout(() => {
-          loader.style.opacity = '0';
-          loader.style.transform = 'scale(1.1)';
-          setTimeout(() => {
-            loader.style.display = 'none';
-            // Initialize particles after loading
-            createEnhancedParticles();
-            initFloatingShapes();
-            initCursorTrail();
-            initParallaxEffect();
-            initMagneticElements();
-          }, 800);
-        }, 500);
-      }
-    }, 150);
   }
-
-  // Initialize floating geometric shapes
-  function initFloatingShapes() {
-    const shapesContainer = document.createElement('div');
-    shapesContainer.className = 'floating-shapes';
-    document.body.appendChild(shapesContainer);
-    
-    const shapes = ['▲', '●', '■', '◆', '★'];
-    const colors = ['#3b82f6', '#8b5cf6', '#06b6d4', '#10b981', '#f59e0b'];
-    
-    setInterval(() => {
-      if (shapesContainer.children.length < 8) {
-        const shape = document.createElement('div');
-        const randomShape = shapes[Math.floor(Math.random() * shapes.length)];
-        const randomColor = colors[Math.floor(Math.random() * colors.length)];
-        
-        shape.className = 'floating-shape';
-        shape.textContent = randomShape;
-        shape.style.left = Math.random() * 100 + '%';
-        shape.style.fontSize = Math.random() * 20 + 15 + 'px';
-        shape.style.color = randomColor;
-        shape.style.opacity = '0.1';
-        shape.style.animationDuration = Math.random() * 10 + 15 + 's';
-        
-        shapesContainer.appendChild(shape);
-        
-        // Remove shape after animation
-        setTimeout(() => {
-          if (shape.parentNode) {
-            shape.remove();
-          }
-        }, 25000);
-      }
-    }, 3000);
-  }
-
+  
   // Initialize cursor trail effect
   function initCursorTrail() {
     const trail = [];
     const trailLength = 8;
     
+    // Create trail elements
     for (let i = 0; i < trailLength; i++) {
       const dot = document.createElement('div');
       dot.className = 'cursor-trail';
-      dot.style.opacity = (i + 1) / trailLength;
-      dot.style.transform = `scale(${(i + 1) / trailLength})`;
+      dot.style.opacity = (trailLength - i) / trailLength;
+      dot.style.transform = `scale(${(trailLength - i) / trailLength})`;
       document.body.appendChild(dot);
       trail.push(dot);
     }
@@ -438,28 +312,27 @@ document.addEventListener('DOMContentLoaded', function() {
       mouseY = e.clientY;
     });
     
-    setInterval(() => {
+    function updateTrail() {
       let x = mouseX, y = mouseY;
       
       trail.forEach((dot, index) => {
         dot.style.left = x - 10 + 'px';
         dot.style.top = y - 10 + 'px';
         
-        if (index < trail.length - 1) {
-          const nextDot = trail[index + 1];
-          const nextX = parseFloat(nextDot.style.left) + 10;
-          const nextY = parseFloat(nextDot.style.top) + 10;
-          
-          x += (nextX - x) * 0.3;
-          y += (nextY - y) * 0.3;
-        }
+        const nextDot = trail[index + 1] || trail[0];
+        x += (parseFloat(nextDot.style.left) - x) * 0.3;
+        y += (parseFloat(nextDot.style.top) - y) * 0.3;
       });
-    }, 16);
+      
+      requestAnimationFrame(updateTrail);
+    }
+    
+    updateTrail();
   }
-
-  // Initialize parallax effect
+  
+  // Initialize parallax effect for elements
   function initParallaxEffect() {
-    const parallaxElements = document.querySelectorAll('.parallax-element, .card-3d, .glass-effect');
+    const parallaxElements = document.querySelectorAll('.card-3d, .glass-effect');
     
     window.addEventListener('scroll', () => {
       const scrolled = window.pageYOffset;
@@ -470,9 +343,9 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   }
-
-  // Initialize magnetic elements
-  function initMagneticElements() {
+  
+  // Initialize magnetic hover effects
+  function initMagneticHoverEffects() {
     const magneticElements = document.querySelectorAll('.magnetic-hover');
     
     magneticElements.forEach(element => {
@@ -481,40 +354,47 @@ document.addEventListener('DOMContentLoaded', function() {
         const x = e.clientX - rect.left - rect.width / 2;
         const y = e.clientY - rect.top - rect.height / 2;
         
-        const moveX = x * 0.3;
-        const moveY = y * 0.3;
-        
-        element.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.05)`;
+        element.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px) scale(1.05)`;
       });
       
       element.addEventListener('mouseleave', () => {
-        element.style.transform = '';
+        element.style.transform = 'translate(0px, 0px) scale(1)';
       });
     });
   }
-
-  // Initialize text reveal animation
-  function initTextRevealAnimation() {
-    const textRevealElements = document.querySelectorAll('.text-reveal');
+  
+  // Initialize enhanced project card effects
+  function initProjectCardEffects() {
+    const projectCards = document.querySelectorAll('.project-item');
     
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.animation = 'textReveal 2s ease forwards';
-          observer.unobserve(entry.target);
-        }
+    projectCards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        // Add ripple effect
+        const ripple = document.createElement('div');
+        ripple.style.position = 'absolute';
+        ripple.style.borderRadius = '50%';
+        ripple.style.background = 'rgba(59, 130, 246, 0.3)';
+        ripple.style.transform = 'scale(0)';
+        ripple.style.animation = 'ripple 0.6s ease-out';
+        ripple.style.left = '50%';
+        ripple.style.top = '50%';
+        ripple.style.width = '100px';
+        ripple.style.height = '100px';
+        ripple.style.marginLeft = '-50px';
+        ripple.style.marginTop = '-50px';
+        ripple.style.pointerEvents = 'none';
+        
+        card.style.position = 'relative';
+        card.appendChild(ripple);
+        
+        setTimeout(() => {
+          ripple.remove();
+        }, 600);
       });
-    }, { threshold: 0.1 });
-    
-    textRevealElements.forEach(element => {
-      observer.observe(element);
     });
-  }
-
-  // Add ripple effect CSS if not exists
-  if (!document.querySelector('#ripple-keyframes')) {
+    
+    // Add CSS for ripple animation
     const style = document.createElement('style');
-    style.id = 'ripple-keyframes';
     style.textContent = `
       @keyframes ripple {
         to {
@@ -525,11 +405,143 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
     document.head.appendChild(style);
   }
-
+  
+  // Dynamic color theme based on time
+  function initDynamicColorTheme() {
+    const root = document.documentElement;
+    let hue = 220; // Starting hue for blue
+    
+    setInterval(() => {
+      hue = (hue + 0.5) % 360;
+      root.style.setProperty('--dynamic-hue', hue);
+    }, 100);
+    
+    // Add CSS custom properties for dynamic colors
+    const style = document.createElement('style');
+    style.textContent = `
+      :root {
+        --dynamic-hue: 220;
+        --dynamic-primary: hsl(var(--dynamic-hue), 91%, 60%);
+        --dynamic-secondary: hsl(calc(var(--dynamic-hue) + 60), 91%, 60%);
+      }
+    `;
+    document.head.appendChild(style);
+  }
+  
+  // Initialize text reveal animations
+  function initTextRevealAnimations() {
+    const textRevealElements = document.querySelectorAll('.text-reveal');
+    
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animation = 'textReveal 1.5s ease forwards';
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    textRevealElements.forEach(element => {
+      revealObserver.observe(element);
+    });
+  }
+  
+  // Enhanced typing effect with sound-like visual feedback
+  function setupTypingEffect() {
+    const element = document.getElementById('typing-text');
+    if (!element) return;
+    
+    const phrases = [
+      "Creo esperienze digitali mozzafiato ✨",
+      "Trasformo idee in magia del codice 🎯", 
+      "Sviluppo il futuro, una riga alla volta 🚀",
+      "Design che cattura, codice che affascina 💫"
+    ];
+    
+    let phraseIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const typingSpeed = 90;
+    const deletingSpeed = 40;
+    const pauseEnd = 2000;
+    
+    const typeText = () => {
+      const currentPhrase = phrases[phraseIndex];
+      
+      // Add typing glow effect
+      element.style.textShadow = '0 0 10px rgba(59, 130, 246, 0.8)';
+      
+      if (isDeleting) {
+        element.textContent = currentPhrase.substring(0, charIndex - 1);
+        charIndex--;
+        
+        if (charIndex === 0) {
+          isDeleting = false;
+          phraseIndex = (phraseIndex + 1) % phrases.length;
+          setTimeout(typeText, 500);
+        } else {
+          setTimeout(typeText, deletingSpeed);
+        }
+      } else {
+        element.textContent = currentPhrase.substring(0, charIndex + 1);
+        charIndex++;
+        
+        if (charIndex === currentPhrase.length) {
+          isDeleting = true;
+          setTimeout(typeText, pauseEnd);
+        } else {
+          setTimeout(typeText, typingSpeed);
+        }
+      }
+      
+      // Remove glow after typing
+      setTimeout(() => {
+        element.style.textShadow = '0 0 5px rgba(59, 130, 246, 0.5)';
+      }, 100);
+    };
+    
+    setTimeout(typeText, 1500);
+  }
+  
   // Initialize loader on page load with enhanced effects
   window.onload = function() {
     initEnhancedPageLoader();
   };
+  
+  // Enhanced page loader animation with spectacular effects
+  function initEnhancedPageLoader() {
+    const loader = document.getElementById('page-loader');
+    const progress = document.getElementById('loader-progress');
+    let width = 0;
+    
+    // Create floating geometric shapes
+    createFloatingShapes();
+    
+    // Initialize cursor trail effect
+    initCursorTrail();
+    
+    // Simulate loading progress with enhanced animation
+    const interval = setInterval(() => {
+      width += Math.random() * 8 + 2; // Variable speed for more natural loading
+      progress.style.width = Math.min(width, 100) + '%';
+      
+      if (width >= 100) {
+        clearInterval(interval);
+        setTimeout(() => {
+          loader.style.opacity = '0';
+          loader.style.transform = 'scale(1.1)';
+          setTimeout(() => {
+            loader.style.display = 'none';
+            // Start particles after loader finishes
+            createEnhancedParticles();
+            // Initialize parallax effect
+            initParallaxEffect();
+            // Initialize magnetic hover effects
+            initMagneticHoverEffects();
+          }, 800);
+        }, 500);
+      }
+    }, 80);
+  }
   
   // Page loader animation
   function initPageLoader() {

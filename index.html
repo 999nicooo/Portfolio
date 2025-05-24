@@ -15,12 +15,19 @@
   <!-- Page loader -->
   <div id="page-loader" class="fixed inset-0 bg-gray-900 flex justify-center items-center z-50">
     <div class="loader-content">
-      <div class="text-5xl font-bold text-blue-500 mb-4">N<span class="text-white">.</span></div>
+      <div class="text-5xl font-bold text-blue-500 mb-4 neon-text">N<span class="text-white">.</span></div>
       <div class="w-24 h-1 bg-gray-700 rounded overflow-hidden">
         <div id="loader-progress" class="h-full bg-blue-500 rounded w-0 transition-all duration-300"></div>
       </div>
+      <div class="mt-4 text-gray-400 text-sm animate-pulse">Caricamento esperienza spettacolare...</div>
     </div>
   </div>
+
+  <!-- Floating geometric shapes -->
+  <div class="floating-shapes" id="floating-shapes"></div>
+
+  <!-- Cursor trail effect -->
+  <div id="cursor-trail"></div>
 
   <!-- NAVBAR -->
   <nav class="fixed top-0 left-0 right-0 bg-gray-900 bg-opacity-90 z-50 backdrop-blur-sm border-b border-gray-800">
@@ -62,7 +69,7 @@
   </div>
 
   <!-- HERO -->
-  <section class="min-h-screen flex items-center justify-center text-center px-4 pt-16 relative overflow-hidden parallax-element">
+  <section class="min-h-screen flex items-center justify-center text-center px-4 pt-16 relative overflow-hidden">
     <!-- Animated particles background -->
     <div class="particles-background" id="particles"></div>
     
@@ -96,7 +103,7 @@
   </section>
 
   <!-- CHI SONO -->
-  <section id="chi-sono" class="px-6 py-16 max-w-4xl mx-auto parallax-element">
+  <section id="chi-sono" class="px-6 py-16 max-w-4xl mx-auto">
     <h2 class="text-3xl font-bold mb-8 animate-on-scroll neon-text text-reveal">Chi sono</h2>
     <div class="flex flex-col md:flex-row gap-8">
       <div class="md:w-2/3 animate-on-scroll">
@@ -129,7 +136,7 @@
   </section>
 
   <!-- SERVIZI -->
-  <section id="servizi" class="px-6 py-16 bg-gray-800 bg-pattern-dots relative parallax-element">
+  <section id="servizi" class="px-6 py-16 bg-gray-800 bg-pattern-dots relative">
     <h2 class="text-3xl font-bold mb-10 text-center animate-on-scroll neon-text text-reveal">Cosa posso fare per te</h2>
     <div class="grid gap-8 md:grid-cols-3 max-w-6xl mx-auto">
       <div class="glass-effect p-6 rounded-2xl shadow card-3d animate-on-scroll">
@@ -160,7 +167,7 @@
   </section>
 
   <!-- COMPETENZE -->
-  <section id="competenze" class="px-6 py-16 bg-pattern-grid parallax-element">
+  <section id="competenze" class="px-6 py-16 bg-pattern-grid">
     <h2 class="text-3xl font-bold mb-10 text-center animate-on-scroll neon-text text-reveal">Le mie competenze</h2>
     <div class="max-w-4xl mx-auto glass-container p-8 rounded-xl">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
@@ -246,35 +253,35 @@
       </div>
       
       <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6">
-        <div class="glass-effect rounded-lg p-4 text-center animate-on-scroll card-3d magnetic-hover">
+        <div class="glass-effect rounded-lg p-4 text-center animate-on-scroll card-3d">
           <div class="text-4xl mb-2"><i class="fab fa-html5 text-orange-500"></i></div>
           <h3 class="font-medium">HTML5</h3>
         </div>
-        <div class="glass-effect rounded-lg p-4 text-center animate-on-scroll delay-200 card-3d magnetic-hover">
+        <div class="glass-effect rounded-lg p-4 text-center animate-on-scroll delay-200 card-3d">
           <div class="text-4xl mb-2"><i class="fab fa-css3-alt text-blue-500"></i></div>
           <h3 class="font-medium">CSS3</h3>
         </div>
-        <div class="glass-effect rounded-lg p-4 text-center animate-on-scroll delay-400 card-3d magnetic-hover">
+        <div class="glass-effect rounded-lg p-4 text-center animate-on-scroll delay-400 card-3d">
           <div class="text-4xl mb-2"><i class="fab fa-js text-yellow-400"></i></div>
           <h3 class="font-medium">JavaScript</h3>
         </div>
-        <div class="glass-effect rounded-lg p-4 text-center animate-on-scroll delay-600 card-3d magnetic-hover">
+        <div class="glass-effect rounded-lg p-4 text-center animate-on-scroll delay-600 card-3d">
           <div class="text-4xl mb-2"><i class="fab fa-react text-blue-400"></i></div>
           <h3 class="font-medium">React</h3>
         </div>
-        <div class="glass-effect rounded-lg p-4 text-center animate-on-scroll card-3d magnetic-hover">
+        <div class="glass-effect rounded-lg p-4 text-center animate-on-scroll card-3d">
           <div class="text-4xl mb-2"><i class="fab fa-php text-purple-500"></i></div>
           <h3 class="font-medium">PHP</h3>
         </div>
-        <div class="glass-effect rounded-lg p-4 text-center animate-on-scroll delay-200 card-3d magnetic-hover">
+        <div class="glass-effect rounded-lg p-4 text-center animate-on-scroll delay-200 card-3d">
           <div class="text-4xl mb-2"><i class="fab fa-bootstrap text-purple-500"></i></div>
           <h3 class="font-medium">Bootstrap</h3>
         </div>
-        <div class="glass-effect rounded-lg p-4 text-center animate-on-scroll delay-400 card-3d magnetic-hover">
+        <div class="glass-effect rounded-lg p-4 text-center animate-on-scroll delay-400 card-3d">
           <div class="text-4xl mb-2"><i class="fab fa-git-alt text-orange-600"></i></div>
           <h3 class="font-medium">Git</h3>
         </div>
-        <div class="glass-effect rounded-lg p-4 text-center animate-on-scroll delay-600 card-3d magnetic-hover">
+        <div class="glass-effect rounded-lg p-4 text-center animate-on-scroll delay-600 card-3d">
           <div class="text-4xl mb-2"><i class="fab fa-figma text-pink-500"></i></div>
           <h3 class="font-medium">Figma</h3>
         </div>
@@ -283,7 +290,7 @@
   </section>
 
   <!-- PORTFOLIO -->
-  <section id="progetti" class="px-6 py-16 max-w-5xl mx-auto parallax-element">
+  <section id="progetti" class="px-6 py-16 max-w-5xl mx-auto">
     <h2 class="text-3xl font-bold mb-10 text-center animate-on-scroll neon-text text-reveal">Progetti recenti</h2>
     <div class="flex justify-center mb-8 animate-on-scroll">
       <div class="inline-flex p-1 bg-gray-800 rounded-lg glass-effect">
@@ -488,7 +495,7 @@
             <label for="message" class="block text-sm font-medium mb-2">Messaggio</label>
             <textarea id="message" name="message" rows="4" class="w-full bg-gray-800 border border-gray-600 rounded p-2 text-white focus:outline-none focus:border-blue-500" required></textarea>
           </div>
-          <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-2 px-4 rounded transition flex items-center justify-center glow-hover magnetic-hover">
+          <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-2 px-4 rounded transition flex items-center justify-center glow-hover">
             <span id="submit-text">Invia messaggio</span>
             <svg id="submit-loading" class="animate-spin ml-2 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>

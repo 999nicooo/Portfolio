@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Create particles for background
-    createParticles();
+    // Initialize dynamic color theme
+    initDynamicColorTheme();
     
     // Start typing effect
     setupTypingEffect();
@@ -175,6 +175,12 @@ document.addEventListener('DOMContentLoaded', function() {
     counters.forEach(counter => {
       counterObserver.observe(counter);
     });
+    
+    // Initialize enhanced project card effects
+    initProjectCardEffects();
+  
+    // Initialize text reveal animations
+    initTextRevealAnimation();
   
     // Form submission
     const contactForm = document.getElementById('contact-form');
@@ -209,16 +215,28 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   
-  // Create particles for background
+  // Create particles for background (legacy function - replaced by enhanced version)
   function createParticles() {
+    // This function is now called from initEnhancedPageLoader
+    createEnhancedParticles();
+  }
+  
+  // Enhanced particles with better visuals and performance
+  function createEnhancedParticles() {
     const container = document.getElementById('particles');
     if (!container) return;
     
-    const colors = ['#3b82f6', '#60a5fa', '#93c5fd', '#1d4ed8'];
+    const colors = [
+      '#3b82f6', '#60a5fa', '#93c5fd', '#1d4ed8', 
+      '#8b5cf6', '#a855f7', '#c084fc', '#06b6d4'
+    ];
     
-    for (let i = 0; i < 40; i++) {
+    const shapes = ['circle', 'square', 'triangle'];
+    
+    for (let i = 0; i < 60; i++) {
       const particle = document.createElement('div');
-      const size = Math.random() * 15 + 5;
+      const size = Math.random() * 12 + 4;
+      const shape = shapes[Math.floor(Math.random() * shapes.length)];
       
       particle.className = 'particle';
       particle.style.width = `${size}px`;
@@ -226,66 +244,291 @@ document.addEventListener('DOMContentLoaded', function() {
       particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
       particle.style.left = `${Math.random() * 100}%`;
       particle.style.top = `${Math.random() * 100}%`;
-      particle.style.animationDuration = `${Math.random() * 20 + 10}s`;
-      particle.style.animationDelay = `${Math.random() * 5}s`;
+      particle.style.animationDuration = `${Math.random() * 25 + 15}s`;
+      particle.style.animationDelay = `${Math.random() * 8}s`;
+      
+      // Add different shapes
+      if (shape === 'square') {
+        particle.style.borderRadius = '20%';
+      } else if (shape === 'triangle') {
+        particle.style.borderRadius = '0';
+        particle.style.clipPath = 'polygon(50% 0%, 0% 100%, 100% 100%)';
+      }
+      
+      // Add glow effect
+      particle.style.boxShadow = `0 0 ${size * 2}px ${particle.style.backgroundColor}`;
       
       container.appendChild(particle);
     }
   }
-  
-  // Typing effect
-  function setupTypingEffect() {
-    const element = document.getElementById('typing-text');
-    if (!element) return;
+
+  // Initialize dynamic color theme
+  function initDynamicColorTheme() {
+    const root = document.documentElement;
+    let hue = 220; // Starting hue for blue
     
-    const phrases = [
-      "Creo siti web responsive e accattivanti ✨",
-      "Risolvo problemi con il codice 💻",
-      "Trasformo idee in realtà digitali 🚀"
-    ];
+    setInterval(() => {
+      hue = (hue + 0.5) % 360;
+      root.style.setProperty('--dynamic-hue', hue);
+    }, 100);
+  }
+
+  // Initialize enhanced project card effects
+  function initProjectCardEffects() {
+    const cards = document.querySelectorAll('.card-3d');
     
-    let phraseIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-    const typingSpeed = 100;
-    const deletingSpeed = 50;
-    const pauseEnd = 1500;
-    
-    const typeText = () => {
-      const currentPhrase = phrases[phraseIndex];
+    cards.forEach(card => {
+      card.addEventListener('mouseenter', function(e) {
+        this.style.transform = 'translateY(-20px) rotateX(10deg) rotateY(5deg) scale(1.05)';
+        
+        // Add ripple effect
+        const ripple = document.createElement('div');
+        ripple.style.position = 'absolute';
+        ripple.style.borderRadius = '50%';
+        ripple.style.background = 'rgba(59, 130, 246, 0.3)';
+        ripple.style.transform = 'scale(0)';
+        ripple.style.animation = 'ripple 0.6s linear';
+        ripple.style.left = '50%';
+        ripple.style.top = '50%';
+        ripple.style.width = '100px';
+        ripple.style.height = '100px';
+        ripple.style.marginLeft = '-50px';
+        ripple.style.marginTop = '-50px';
+        ripple.style.pointerEvents = 'none';
+        
+        this.style.position = 'relative';
+        this.appendChild(ripple);
+        
+        setTimeout(() => {
+          ripple.remove();
+        }, 600);
+      });
       
-      if (isDeleting) {
-        // Deleting text
-        element.textContent = currentPhrase.substring(0, charIndex - 1);
-        charIndex--;
+      card.addEventListener('mouseleave', function() {
+        this.style.transform = '';
+      });
+      
+      // Mouse move effect for 3D tilt
+      card.addEventListener('mousemove', function(e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
         
-        if (charIndex === 0) {
-          isDeleting = false;
-          phraseIndex = (phraseIndex + 1) % phrases.length;
-          setTimeout(typeText, 500);
-        } else {
-          setTimeout(typeText, deletingSpeed);
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = (y - centerY) / 10;
+        const rotateY = (centerX - x) / 10;
+        
+        this.style.transform = `translateY(-20px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+      });
+    });
+  }
+
+  // Enhanced page loader with spectacular effects
+  function initEnhancedPageLoader() {
+    const loader = document.getElementById('page-loader');
+    const progress = document.getElementById('loader-progress');
+    let width = 0;
+    
+    // Create loader particles
+    const loaderParticles = document.createElement('div');
+    loaderParticles.style.position = 'absolute';
+    loaderParticles.style.top = '0';
+    loaderParticles.style.left = '0';
+    loaderParticles.style.width = '100%';
+    loaderParticles.style.height = '100%';
+    loaderParticles.style.pointerEvents = 'none';
+    loader.appendChild(loaderParticles);
+    
+    // Add floating particles to loader
+    for (let i = 0; i < 20; i++) {
+      const particle = document.createElement('div');
+      particle.style.position = 'absolute';
+      particle.style.width = '4px';
+      particle.style.height = '4px';
+      particle.style.background = '#3b82f6';
+      particle.style.borderRadius = '50%';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.top = Math.random() * 100 + '%';
+      particle.style.animation = `float ${Math.random() * 3 + 2}s ease-in-out infinite`;
+      particle.style.opacity = '0.6';
+      loaderParticles.appendChild(particle);
+    }
+    
+    // Simulate loading progress with smooth animation
+    const interval = setInterval(() => {
+      width += Math.random() * 8 + 2; // Random increment for realistic loading
+      if (width > 100) width = 100;
+      
+      progress.style.width = width + '%';
+      
+      if (width >= 100) {
+        clearInterval(interval);
+        setTimeout(() => {
+          loader.style.opacity = '0';
+          loader.style.transform = 'scale(1.1)';
+          setTimeout(() => {
+            loader.style.display = 'none';
+            // Initialize particles after loading
+            createEnhancedParticles();
+            initFloatingShapes();
+            initCursorTrail();
+            initParallaxEffect();
+            initMagneticElements();
+          }, 800);
+        }, 500);
+      }
+    }, 150);
+  }
+
+  // Initialize floating geometric shapes
+  function initFloatingShapes() {
+    const shapesContainer = document.createElement('div');
+    shapesContainer.className = 'floating-shapes';
+    document.body.appendChild(shapesContainer);
+    
+    const shapes = ['▲', '●', '■', '◆', '★'];
+    const colors = ['#3b82f6', '#8b5cf6', '#06b6d4', '#10b981', '#f59e0b'];
+    
+    setInterval(() => {
+      if (shapesContainer.children.length < 8) {
+        const shape = document.createElement('div');
+        const randomShape = shapes[Math.floor(Math.random() * shapes.length)];
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        
+        shape.className = 'floating-shape';
+        shape.textContent = randomShape;
+        shape.style.left = Math.random() * 100 + '%';
+        shape.style.fontSize = Math.random() * 20 + 15 + 'px';
+        shape.style.color = randomColor;
+        shape.style.opacity = '0.1';
+        shape.style.animationDuration = Math.random() * 10 + 15 + 's';
+        
+        shapesContainer.appendChild(shape);
+        
+        // Remove shape after animation
+        setTimeout(() => {
+          if (shape.parentNode) {
+            shape.remove();
+          }
+        }, 25000);
+      }
+    }, 3000);
+  }
+
+  // Initialize cursor trail effect
+  function initCursorTrail() {
+    const trail = [];
+    const trailLength = 8;
+    
+    for (let i = 0; i < trailLength; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'cursor-trail';
+      dot.style.opacity = (i + 1) / trailLength;
+      dot.style.transform = `scale(${(i + 1) / trailLength})`;
+      document.body.appendChild(dot);
+      trail.push(dot);
+    }
+    
+    let mouseX = 0, mouseY = 0;
+    
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+    
+    setInterval(() => {
+      let x = mouseX, y = mouseY;
+      
+      trail.forEach((dot, index) => {
+        dot.style.left = x - 10 + 'px';
+        dot.style.top = y - 10 + 'px';
+        
+        if (index < trail.length - 1) {
+          const nextDot = trail[index + 1];
+          const nextX = parseFloat(nextDot.style.left) + 10;
+          const nextY = parseFloat(nextDot.style.top) + 10;
+          
+          x += (nextX - x) * 0.3;
+          y += (nextY - y) * 0.3;
         }
-      } else {
-        // Typing text
-        element.textContent = currentPhrase.substring(0, charIndex + 1);
-        charIndex++;
+      });
+    }, 16);
+  }
+
+  // Initialize parallax effect
+  function initParallaxEffect() {
+    const parallaxElements = document.querySelectorAll('.parallax-element, .card-3d, .glass-effect');
+    
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      
+      parallaxElements.forEach((element, index) => {
+        const rate = scrolled * (index % 3 + 1) * 0.02;
+        element.style.transform = `translateY(${rate}px)`;
+      });
+    });
+  }
+
+  // Initialize magnetic elements
+  function initMagneticElements() {
+    const magneticElements = document.querySelectorAll('.magnetic-hover');
+    
+    magneticElements.forEach(element => {
+      element.addEventListener('mousemove', (e) => {
+        const rect = element.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
         
-        if (charIndex === currentPhrase.length) {
-          isDeleting = true;
-          setTimeout(typeText, pauseEnd);
-        } else {
-          setTimeout(typeText, typingSpeed);
+        const moveX = x * 0.3;
+        const moveY = y * 0.3;
+        
+        element.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.05)`;
+      });
+      
+      element.addEventListener('mouseleave', () => {
+        element.style.transform = '';
+      });
+    });
+  }
+
+  // Initialize text reveal animation
+  function initTextRevealAnimation() {
+    const textRevealElements = document.querySelectorAll('.text-reveal');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animation = 'textReveal 2s ease forwards';
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    textRevealElements.forEach(element => {
+      observer.observe(element);
+    });
+  }
+
+  // Add ripple effect CSS if not exists
+  if (!document.querySelector('#ripple-keyframes')) {
+    const style = document.createElement('style');
+    style.id = 'ripple-keyframes';
+    style.textContent = `
+      @keyframes ripple {
+        to {
+          transform: scale(4);
+          opacity: 0;
         }
       }
-    };
-    
-    setTimeout(typeText, 1000);
+    `;
+    document.head.appendChild(style);
   }
-  
-  // Initialize loader on page load
+
+  // Initialize loader on page load with enhanced effects
   window.onload = function() {
-    initPageLoader();
+    initEnhancedPageLoader();
   };
   
   // Page loader animation

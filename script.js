@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Pulisci elementi problematici prima di inizializzare
+    cleanupProblematicElements();
+    
     // Initialize page loader first
     initPageLoader();
     
@@ -28,6 +31,66 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Funzione per pulire elementi problematici
+function cleanupProblematicElements() {
+    // Rimuovi elementi con classi Tailwind che potrebbero interferire
+    const problematicSelectors = [
+        '.inline-flex.p-1.bg-gray-800.rounded-lg.glass-effect',
+        '.bg-gray-800.rounded-lg',
+        '.px-4.py-2.rounded-md',
+        '[class*="glass-effect"][class*="bg-gray-800"]'
+    ];
+    
+    problematicSelectors.forEach(selector => {
+        const elements = document.querySelectorAll(selector);
+        elements.forEach(element => {
+            // Controlla se l'elemento ha solo un bottone di filtro inside
+            const filterButton = element.querySelector('button[data-filter]');
+            if (filterButton) {
+                // Sposta il bottone fuori e rimuovi il wrapper
+                element.parentNode.insertBefore(filterButton, element);
+                element.remove();
+            } else {
+                element.remove();
+            }
+        });
+    });
+    
+    // Trova e correggi eventuali bottoni di filtro
+    const filterButtons = document.querySelectorAll('button[data-filter], .project-filter');
+    filterButtons.forEach(button => {
+        // Aggiungi le classi corrette
+        button.classList.add('filter-btn');
+        button.classList.remove('px-4', 'py-2', 'rounded-md', 'project-filter');
+        
+        // Assicurati che il primo bottone sia attivo
+        if (button.getAttribute('data-filter') === 'all' || button.getAttribute('data-filter') === 'design') {
+            button.classList.add('active');
+        }
+    });
+    
+    // Crea un container per i filtri se non esiste
+    const existingContainer = document.querySelector('.filter-container');
+    if (!existingContainer && filterButtons.length > 0) {
+        const container = document.createElement('div');
+        container.className = 'filter-container';
+        
+        // Trova la sezione progetti
+        const projectSection = document.querySelector('#progetti, section[id*="project"]');
+        if (projectSection) {
+            const firstChild = projectSection.querySelector('.grid, .projects-grid');
+            if (firstChild) {
+                projectSection.insertBefore(container, firstChild);
+                
+                // Sposta tutti i bottoni nel container
+                filterButtons.forEach(button => {
+                    container.appendChild(button);
+                });
+            }
+        }
+    }
+}
 
 // Navigation active state
 function initNavigation() {
@@ -120,10 +183,12 @@ function initScrollAnimations() {
     });
 }
 
-// Project filters
+// Project filters - versione migliorata
 function initProjectFilters() {
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const projectItems = document.querySelectorAll('.project-item');
+    const filterButtons = document.querySelectorAll('.filter-btn, .project-filter, button[data-filter]');
+    const projectItems = document.querySelectorAll('.project-item, [data-category]');
+    
+    if (filterButtons.length === 0) return;
     
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -135,22 +200,33 @@ function initProjectFilters() {
             
             // Filter projects
             projectItems.forEach(item => {
-                if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                const category = item.getAttribute('data-category');
+                
+                if (filterValue === 'all' || category === filterValue) {
                     item.style.display = 'block';
-                    setTimeout(() => {
-                        item.style.opacity = '1';
-                        item.style.transform = 'translateY(0)';
-                    }, 100);
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0)';
                 } else {
                     item.style.opacity = '0';
                     item.style.transform = 'translateY(20px)';
                     setTimeout(() => {
-                        item.style.display = 'none';
+                        if (item.style.opacity === '0') {
+                            item.style.display = 'none';
+                        }
                     }, 300);
                 }
             });
         });
     });
+    
+    // Attiva il primo filtro di default
+    if (filterButtons.length > 0) {
+        const firstFilter = filterButtons[0];
+        if (!document.querySelector('.filter-btn.active')) {
+            firstFilter.classList.add('active');
+            firstFilter.click();
+        }
+    }
 }
 
 // Skill bars animation

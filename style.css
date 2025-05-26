@@ -350,13 +350,33 @@ nav {
   color: var(--accent-color);
 }
 
-/* Filter buttons */
+/* Filter buttons - FIX per menu a tendina */
 .filter-container {
   display: flex;
   justify-content: center;
   gap: 1rem;
   margin-bottom: 3rem;
   flex-wrap: wrap;
+}
+
+/* Rimuove stili per project-filter se presenti */
+.project-filter {
+  background: transparent;
+  border: 2px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.project-filter:hover,
+.project-filter.active {
+  border-color: var(--primary-color);
+  background: var(--primary-color);
+  color: white;
 }
 
 .filter-btn {
@@ -367,6 +387,8 @@ nav {
   border-radius: 25px;
   transition: all 0.3s ease;
   cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .filter-btn:hover,
@@ -374,6 +396,55 @@ nav {
   border-color: var(--primary-color);
   background: var(--primary-color);
   color: white;
+}
+
+/* Fix per elementi glass-effect che potrebbero causare problemi */
+.glass-effect {
+  background: rgba(51, 65, 85, 0.7);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.glass-effect:hover {
+  border-color: var(--accent-color);
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.1);
+}
+
+/* Nasconde elementi problematici che potrebbero essere rimasti dal design precedente */
+.inline-flex,
+.bg-gray-800,
+.rounded-lg {
+  display: none !important;
+}
+
+/* Override per elementi Tailwind che potrebbero interferire */
+.p-1,
+.bg-gray-800,
+.rounded-lg,
+.px-4,
+.py-2,
+.rounded-md {
+  all: unset;
+  display: none !important;
+}
+
+/* Assicura che i project items abbiano gli stili corretti */
+.project-item {
+  background: var(--bg-card);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.project-item:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
 }
 
 /* Statistics */

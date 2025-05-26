@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize page loader first
+    initPageLoader();
+    
     // Initialize components
     initNavigation();
     initTypingEffect();
@@ -302,3 +305,58 @@ function initBackToTop() {
         });
     });
 }
+
+// Page loader function
+function initPageLoader() {
+    const loader = document.getElementById('page-loader');
+    const progress = document.getElementById('loader-progress');
+    const percentage = document.querySelector('.loader-percentage');
+    
+    if (!loader || !progress) {
+        // Se gli elementi del loader non esistono, rimuovi semplicemente qualsiasi overlay
+        const existingLoader = document.querySelector('#page-loader, .loader, .loading-screen');
+        if (existingLoader) {
+            existingLoader.remove();
+        }
+        return;
+    }
+    
+    let width = 0;
+    
+    // Simulate loading progress
+    const interval = setInterval(() => {
+        width += Math.random() * 15 + 5; // Variable speed
+        
+        if (width > 100) width = 100;
+        
+        progress.style.width = width + '%';
+        if (percentage) {
+            percentage.textContent = Math.floor(width) + '%';
+        }
+        
+        if (width >= 100) {
+            clearInterval(interval);
+            
+            // Hide loader after a brief delay
+            setTimeout(() => {
+                loader.classList.add('hidden');
+                
+                // Remove loader from DOM after transition
+                setTimeout(() => {
+                    loader.remove();
+                }, 500);
+            }, 500);
+        }
+    }, 100);
+}
+
+// Fallback: remove any loader after 3 seconds maximum
+setTimeout(() => {
+    const loader = document.getElementById('page-loader');
+    if (loader) {
+        loader.classList.add('hidden');
+        setTimeout(() => {
+            loader.remove();
+        }, 500);
+    }
+}, 3000);
